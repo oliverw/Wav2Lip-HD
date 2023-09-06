@@ -384,7 +384,9 @@ def main():
 
     if not args.audio.endswith(".wav"):
         print("Extracting raw audio...")
-        command = "ffmpeg -y -i {} -strict -2 {}".format(args.audio, "temp/temp.wav")
+        command = 'ffmpeg -hide_banner -loglevel error -y -i "{}" -strict -2 {}'.format(
+            args.audio, "temp/temp.wav"
+        )
 
         subprocess.call(command, shell=True)
         args.audio = "temp/temp.wav"
@@ -456,13 +458,12 @@ def main():
             y1, y2, x1, x2 = c
 
             if args.save_frames:
-                print("saving frames or video...")
                 if args.save_as_video:
-                    print("videos...")
+                    print("Saving videos...")
                     pred_out.write(p.astype(np.uint8))
                     gt_out.write(cv2.resize(f[y1:y2, x1:x2], (384, 384)))
                 else:
-                    print("frames...")
+                    # print("frames...")
                     print(f"{args.gt_path}/{args.image_prefix}{abs_idx}.png")
                     cv2.imwrite(
                         f"{args.gt_path}/{args.image_prefix}{abs_idx}.png",
