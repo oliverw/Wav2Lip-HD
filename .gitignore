@@ -6,3 +6,6 @@ output_videos_wav2lip
 results
 checkpoints/*
 temp/result.avi
+temp/result.avi
+temp/temp.wav
+temp/result.avi

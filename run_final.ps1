@@ -14,6 +14,9 @@ param (
   # upscaling factor for final result
   [int]$outscale = 2,
 
+  # project framerate
+  [int]$fps = 30,
+
   [switch]$clean,
   [switch]$noaudio
 )
@@ -48,7 +51,7 @@ if (($input_ext -eq ".jpg") -or ($input_ext -eq ".png")) {
     $scale_exp = "scale=iw/${inscale}:-1"
   }
 
-  ffmpeg -hide_banner -loglevel error -y -loop 1 -f image2 -i $input_video -r 30 -vf $scale_exp -c:v h264_nvenc -cq:v 19 -t 10 $new_input_video
+  ffmpeg -hide_banner -loglevel error -y -loop 1 -f image2 -i $input_video -r $fps -vf $scale_exp -c:v h264_nvenc -cq:v 19 -t 10 $new_input_video
   Write-Host "Converted $input_video_item.Name to $new_input_video"
 
   # update vars
@@ -108,9 +111,9 @@ try {
   Write-Host "Combining frames and audio into final video .."
   
   if (-not $noaudio) {
-    ffmpeg -hide_banner -loglevel error -y -r 30 -i (Join-Path ".." $frames_path_upscaled frame_%05d_out.jpg) -i $input_audio -c:v h264_nvenc -tune:v hq -rc:v vbr -cq:v 19 -b:v 0 -profile:v high -c:a aac -b:a 128k $result_path
+    ffmpeg -hide_banner -loglevel error -y -r $fps -i (Join-Path ".." $frames_path_upscaled frame_%05d_out.jpg) -i $input_audio -c:v h264_nvenc -tune:v hq -rc:v vbr -cq:v 19 -b:v 0 -profile:v high -c:a aac -b:a 128k $result_path
   } else {
-    ffmpeg -hide_banner -loglevel error -y -r 30 -i (Join-Path ".." $frames_path_upscaled frame_%05d_out.jpg) -c:v h264_nvenc -tune:v hq -rc:v vbr -cq:v 19 -b:v 0 -profile:v high $result_path
+    ffmpeg -hide_banner -loglevel error -y -r $fps -i (Join-Path ".." $frames_path_upscaled frame_%05d_out.jpg) -c:v h264_nvenc -tune:v hq -rc:v vbr -cq:v 19 -b:v 0 -profile:v high $result_path
   }
 
   ffplay -autoexit $result_path
