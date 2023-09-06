@@ -384,6 +384,9 @@ def main():
 
     if not args.audio.endswith(".wav"):
         print("Extracting raw audio...")
+        # command = 'ffmpeg -hide_banner -loglevel error -y -i "{}" -i input_audios/silence_1s.wav -filter_complex "[0:a][1:a]concat=n=2:v=0:a=1" -strict -2 {}'.format(
+        #     args.audio, "temp/temp.wav"
+        # )
         command = 'ffmpeg -hide_banner -loglevel error -y -i "{}" -strict -2 {}'.format(
             args.audio, "temp/temp.wav"
         )

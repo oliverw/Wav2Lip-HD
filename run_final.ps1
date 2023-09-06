@@ -48,7 +48,7 @@ if (($input_ext -eq ".jpg") -or ($input_ext -eq ".png")) {
     $scale_exp = "scale=iw/${inscale}:-1"
   }
 
-  ffmpeg -hide_banner -loglevel error -y -loop 1 -f image2 -i $input_video -r 24 -vf $scale_exp -c:v h264_nvenc -tune:v hq -rc:v vbr -cq:v 19 -b:v 0 -profile:v high -t 60 $new_input_video
+  ffmpeg -hide_banner -loglevel error -y -loop 1 -f image2 -i $input_video -r 30 -vf $scale_exp -c:v h264_nvenc -cq:v 19 -t 10 $new_input_video
   Write-Host "Converted $input_video_item.Name to $new_input_video"
 
   # update vars
