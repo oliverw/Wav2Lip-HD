@@ -18,7 +18,7 @@ $input_video_item = (Get-Item $input_video)
 $input_ext = $input_video_item.Extension.ToLower()
 
 if (($input_ext -eq ".jpg") -or ($input_ext -eq ".png")) {
-  # convert to video
+  # convert to 60sec video
   $new_input_video = Join-Path $input_video_item.Directory ("{0}.{1}" -f $input_video_item.BaseName, "mp4")
   ffmpeg -hide_banner -loglevel error -loop 1 -f image2 -i $input_video -r 24 -c:v h264_nvenc -tune:v hq -rc:v vbr -cq:v 19 -b:v 0 -profile:v high -t 60 $new_input_video
 
