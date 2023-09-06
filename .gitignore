@@ -1,0 +1,8 @@
+*.pyc
+frames_wav2lip
+input_audios
+input_videos
+output_videos_wav2lip
+results
+checkpoints/*
+temp/result.avi
